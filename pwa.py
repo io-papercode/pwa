@@ -83,7 +83,7 @@ class PWA(object):
                   'c':self.c
                  }
         prior_sample = project_hyp_vec(sample_gauss_pd(tf.shape(self.mu),radius=0.88),c=self.c)
-        self.mmd_loss = mmd_penalty(mmd_params,prior_sample,self.z,kernel=self.mmd_kernel,q=self.q)
+        self.mmd_loss = mmd_penalty(mmd_params,prior_sample,self.z,mmd_kernel=self.mmd_kernel,q=self.q)
         self.varreg = tf.reduce_mean(tf.norm(self.log_sigma,self.varregnorm,axis=1))
     
         #total loss

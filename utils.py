@@ -377,11 +377,10 @@ def block_diagonal(matrices, dtype=tf.float32):
     blocked.set_shape(batch_shape.concatenate((blocked_rows, blocked_cols)))
     return blocked
 
-def mmd_penalty(params, sample_pz, sample_qhat, kernel='laplacian', sigma=None, q=1.0):
+def mmd_penalty(params, sample_pz, sample_qhat, mmd_kernel='laplacian', sigma=None, q=1.0):
     ns = params['nr_mmd_samples']
     n = params['batch_size']
     ls = params['embedding_dim']
-    kernel = params['mmd_kernel']
     sigma2_p = 1 # params['pz_scale'] ** 2
     params['pz'] = 'normal'
 
@@ -403,7 +402,7 @@ def mmd_penalty(params, sample_pz, sample_qhat, kernel='laplacian', sigma=None, 
     else:
         sigms2_k = sigma
 
-    if kernel == 'laplacian':
+    if mmd_kernel == 'laplacian':
         res1 = tf.exp( - dist_pz / q / sigma2_k)
         res2 = tf.exp( - dist_pz_qhat / q / sigma2_k)
         res3 = tf.exp( - dist_qhat / q / sigma2_k)
